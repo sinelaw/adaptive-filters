@@ -1,7 +1,7 @@
 clear all;
 
 error_tests = 500;
-N = 100;
+N = 200;
 
 % calculate LS weight matrix
 %LS_N = N/2;
