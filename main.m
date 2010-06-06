@@ -17,9 +17,9 @@ x = simulate_radar_model(T, w, A, x0);
 y = simulate_radar_signal(x, sigma_v);
 
 % display('Running Kalman');
-[kalman_filtered, est_error_var] = radar_kalman(y, T, A, sigma_w);
+[kalman_filtered, est_error_var] = radar_kalman(y, T, A, sigma_w, x0);
 % display('Running LS');
-ls_depth = 2;
+ls_depth = size(x,1);
 ls_filtered = [[0;0], ls_filter(x', y', ls_depth)];
 
 

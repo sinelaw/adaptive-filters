@@ -1,5 +1,6 @@
 function draw_results(t, x, y, filtered, e, est_error_var, ls_filtered)
 
+ls_error = (x-ls_filtered).^2;
 rows=4;
 cols=4;
 
@@ -15,7 +16,7 @@ subplot(rows,cols,3);
 plot(t, y);
 ylabel('Measured position');
 
-subplot(rows,cols,4);
+%subplot(rows,cols,4);
 %plot(t,x(2,:));
 %ylabel('Noiseless position');
 
@@ -59,6 +60,13 @@ subplot(rows,cols,14);
 plot(ls_filtered(2,:));
 ylabel('LS - velocity');
 
+subplot(rows,cols,15);
+plot(ls_error(1,:));
+ylabel('LS - position error');
+
+subplot(rows,cols,16);
+plot(ls_error(2,:));
+ylabel('LS - velocity error');
 
 
 

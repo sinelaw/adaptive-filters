@@ -10,9 +10,9 @@ N = 100;
 % --------------------
 
 sigma_w = 0;
+w = zeros(N,1); %random('Normal', 0, sigma_w, N, 1)';
 e = 0;
 for i = 1:error_tests
-    w = zeros(N,1); %random('Normal', 0, sigma_w, N, 1)';
     [t,x,y,filtered,est_error_var,ls_filtered] = main(sigma_w, w, N);
     e = e + (x - filtered).^2;
 end

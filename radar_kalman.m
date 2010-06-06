@@ -1,4 +1,4 @@
-function [est_state, est_error_var] = radar_kalman(y, T, A, sigma_w)
+function [est_state, est_error_var] = radar_kalman(y, T, A, sigma_w, x0)
 
 N = length(y);
 
@@ -12,7 +12,7 @@ P0 = sigma_w*diag([100,100]);
 K0 = calc_k(P0,A,R,H,C);
 
 % intialize state estimation to zero
-x = zeros(2,N);
+x = x0;
 K = K0;
 P = P0;
 est_error_var = zeros(2,N);

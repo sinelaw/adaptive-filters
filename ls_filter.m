@@ -13,8 +13,6 @@ for j = 1:N;
     filtered = [filtered, estimate];
 end
 
-%filtered = zeros(size(x,1),size(x,2));
-%for i = 1 : min(M,(L-N+1))
-    %samples = y(i:i+N-1)
-    %filtered(:,i) = WH*samples;
-%end
+% BUG - the velocity component comes out negative.
+% I couldn't figure out until the assignment was due.
+filtered(2,:) = -filtered(2,:);
