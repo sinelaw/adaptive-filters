@@ -1,7 +1,7 @@
 clear all;
 
 error_tests = 500;
-N = 50;
+N = 100;
 
 % calculate LS weight matrix
 %LS_N = N/2;
@@ -12,7 +12,7 @@ N = 50;
 sigma_w = 0;
 e = 0;
 for i = 1:error_tests
-    w = random('Normal', 0, sigma_w, N, 1)';
+    w = zeros(N,1); %random('Normal', 0, sigma_w, N, 1)';
     [t,x,y,filtered,est_error_var,ls_filtered] = main(sigma_w, w, N);
     e = e + (x - filtered).^2;
 end

@@ -8,7 +8,7 @@ R = 1;
 C = 0;
 
 % initial covariance estimation
-P0 = sigma_w*diag([1,1]);
+P0 = sigma_w*diag([100,100]);
 K0 = calc_k(P0,A,R,H,C);
 
 % intialize state estimation to zero
