@@ -43,6 +43,13 @@ subplot(rows,cols,10);
 plot(t, est_error_var(2,:));
 ylabel('Est. Error - velocity');
 
+subplot(rows,cols,11);
+plot(t,x(1,:), '*b', t,filtered(1,:), '-r', t,ls_filtered(1,:), '+g');
+ylabel('Position (all)');
+
+subplot(rows,cols,12);
+plot(t,x(2,:), '*b', t,filtered(2,:), '-r', t,ls_filtered(2,:), '+g');
+ylabel('Velocity (all)');
 
 subplot(rows,cols,13);
 plot(ls_filtered(1,:));

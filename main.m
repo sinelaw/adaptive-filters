@@ -20,7 +20,7 @@ y = simulate_radar_signal(x, sigma_v);
 [kalman_filtered, est_error_var] = radar_kalman(y, T, A, sigma_w);
 % display('Running LS');
 ls_depth = 2;
-ls_filtered = ls_filter(x', y', ls_depth);
+ls_filtered = [[0;0], ls_filter(x', y', ls_depth)];
 
 
 
