@@ -4,26 +4,22 @@ M = size(U,1);
 N = size(U,2);
 
 if (nargin < 5) 
-    wInitial = zeros(1,M);
+    wInitial = zeros(M,1);
 end
-
-maxIterations = 100;
 
 lambdaInv = lambda^-1;
 
-P = Piniitial;
+P = Pinitial;
 w = [wInitial];
 wCur = wInitial;
-for i = 1 : maxIterations
+for i = 1 : N
+    u = U(:,i);
     alpha = lambdaInv * P * u;
-    k = alpha ./ (1 + U'*alpha);
-    e = d - wCur'*U;
+    k = alpha ./ (1 + u'*alpha);
+    e = d(i) - wCur'*u;
     wNext = wCur + k*e';
     w = [w, wNext];
-    if norm(wNext - wCur) < stopError
-        return
-    end
-    P = lambdaInv * (P - k*U'*P);
+    P = lambdaInv * (P - k*u'*P);
     wCur = wNext;
 end
 
