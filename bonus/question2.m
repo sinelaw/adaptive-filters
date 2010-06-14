@@ -1,7 +1,7 @@
 function question2()
 
 % Print the weights for a filter of order 5
-r5 = y_autocorellation_vector(0,4)
+r5 = y_autocorellation_vector(0,4);
 R5 = toeplitz(r5);
 
 p5 = y_autocorellation_vector(1,5);
@@ -10,51 +10,57 @@ display('Weights for filter of order 5:');
 display(w5);
 
 
-% Create a 400 sample input 
+% Create a 400 sample random, white input 
 L = 400;
 x = randn(L,1);
+
+% Filter it through the given system
 b = [1,-0.1];
-a = [-0.4];
+a = [1,-0.4];
 y = filter(b, a, x);
 
-subplot(2,3,1);
-plot(y);
-subplot(2,3,2);
-plot(x);
-i = 3;
-for filter_order = [1,2,5,15]
+i = 1;
+
+mse_vec = [];
+orders = [1,2,5,15];
+% Estimate y[n] using previous samples of y using the Weiner filter
+% use different FIR orders for comparison
+for filter_order = orders
     % Build input matrices
-    [ U, N ] = input_matrix(y, filter_order);
+    %[ U, N ] = input_matrix(y, filter_order);
+    u = y';
+    U = toeplitz(zeros(1,filter_order),[0 u(1:end-1)]);
     r = y_autocorellation_vector(0,filter_order-1);    
     R = toeplitz(r);
+
+    % "cross-corellation" between y[n] and previous samples
     p = y_autocorellation_vector(1,filter_order);
 
     % Perform filtering
     [z, w] = weiner(U, R, p, false);
     
     % calculate error
-    y_trunc = y(filter_order:length(y)-1, :);
-    e = abs(z' - y_trunc).^2;
+    e = abs(z' - y).^2;
+    mse = mean(e);
+    
+    mse_vec = [mse_vec, mse];
     % plot
     subplot(2,3,i);
-    hold off;
-    plot(z);
-    hold on;
-    plot(y_trunc, 'r');
-    hold off;
+    stem(e, 'marker', 'none');
+	title(['Error for filter of order ', num2str(filter_order), ', MSE = ', num2str(mse)]);
+    ylabel('e^2[n]');
+    xlabel('n');
     i = i + 1;
 end
 
+subplot(2,3,i);
+plot(orders, mse_vec);
+title('Mean square error per filter order');
+xlabel('Filter order');
+ylabel('MSE');
+
 end
 
-function [ U, N ] = input_matrix(y, filter_order)
-    M = filter_order;
-    N = length(y) - M;
-    U = [];
-    for i = 1 : N
-        U = [U, y(i+M-1:-1:i)];
-    end
-end
 
 function [ p ] = y_autocorellation_vector(start, stop)
     p = arrayfun(@(x) y_autocorellation(x), (start:stop)');
