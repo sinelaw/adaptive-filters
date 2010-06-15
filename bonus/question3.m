@@ -1,6 +1,4 @@
-function question3()
-
-load('mixedSignals1.mat');
+function question3(x1, x2)
 
 filter_order = 16;
 Fs = 16000;
@@ -10,10 +8,10 @@ d = x2;
 
 display('LS');
 % Part A: LS filtering
-%[y,w] = ls(U, d');
-%soundsc(y'-x2,Fs);
-%display('Weights:');
-%display(w);
+[y,w] = ls(U, d');
+soundsc(y'-x2,Fs);
+display('Weights:');
+display(w);
 
 display('RLS');
 % Part B: RLS filtering
@@ -23,7 +21,7 @@ lambdas = [0.05, 0.5, 0.85, 1];
 lines = ['-', ':', '-.', '--'];
 colors = ['b', 'g', 'r', 'c'];
 i = 1;
-for lambda = [1] %lambdas
+for lambda = [lambdas]
     [y, w] = rls(U, d, Pinitial, lambda);
     
     subplot(2,2,i);
