@@ -3,11 +3,12 @@ function [ y, w ] = rls( U, d, Pinitial, lambda, wInitial)
 % -------------
 % Inputs:
 % U = MxN input matrix, where each column n is a vector u[n]...u[n-M] of input
-% samples
+%     samples, M is the filter order.
 % d = N-length row vector, reference signal 
-% Pinitial = initial variance estimation matrix, 
+% Pinitial = MxM initial variance estimation matrix, 
 % lambda = memory coefficient
-% wInitial = initial weights
+% wInitial = M-length column vector, of initial weights. If not supplied,
+%            defaults to 0
 % -------------
 % Outputs:
 % y = filtered data
@@ -25,7 +26,7 @@ end
 lambdaInv = lambda^-1;
 
 P = Pinitial;
-w = [wInitial];
+w = zeros(M,N);
 wCur = wInitial;
 % Perform the iterations
 for i = 1 : N
@@ -34,8 +35,8 @@ for i = 1 : N
     k = alpha ./ (1 + u'*alpha);
     e = d(i) - wCur'*u;
     wNext = wCur + k*e';
-    w = [w, wNext];
     P = lambdaInv * (P - k*u'*P);
+    w(:,i) = wCur;
     wCur = wNext;
 end
 

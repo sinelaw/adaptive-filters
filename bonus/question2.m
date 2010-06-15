@@ -40,8 +40,8 @@ for filter_order = orders
     [z, w] = weiner(U, R, p, false);
     
     % calculate error
-    e = abs(z' - y).^2;
-    mse = mean(e);
+    e = abs(z' - y).^2; % Square error
+    mse = mean(e); % Mean square error
     
     mse_vec = [mse_vec, mse];
     % plot
